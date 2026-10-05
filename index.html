@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Will You Be Mine? 💗</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #ffd6e7, #fff0f6);
+      overflow: hidden;
+    }
+    .card {
+      background: white;
+      width: 90%;
+      max-width: 420px;
+      padding: 40px 25px;
+      border-radius: 25px;
+      text-align: center;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    }
+    .heart {
+      font-size: 70px;
+      animation: beat 1s infinite;
+    }
+    @keyframes beat {
+      50% {
+        transform: scale(1.2);
+      }
+    }
+    h1 {
+      color: #ff4f8b;
+    }
+    p {
+      color: #555;
+      font-size: 18px;
+      line-height: 1.6;
+    }
+    .buttons {
+      margin-top: 25px;
+    }
+    button {
+      border: none;
+      padding: 13px 25px;
+      margin: 10px;
+      border-radius: 30px;
+      font-size: 17px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    #yes {
+      background: #ff4f8b;
+      color: white;
+    }
+    #no {
+      background: #eee;
+      color: #555;
+    }
+    #result {
+      display: none;
+      margin-top: 20px;
+      color: #ff4f8b;
+      font-size: 24px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="heart">❤️</div>
+    <h1>Will You Be My Girlfriend?</h1>
+    <p>
+      I really like you... 💕<br>
+      So I have one question for you.
+    </p>
+    <h2>Will you be mine? 🥺</h2>
+    <div class="buttons">
+      <button id="yes" onclick="sayYes()">
+        Yes 💗
+      </button>
+      <button id="no" onclick="sayNo()">
+        No 😭
+      </button>
+    </div>
+    <div id="result">
+      YAY!!! 💗<br>
+      You made me the happiest person! 🥰
+    </div>
+  </div>
+  <script>
+    let yesSize = 17;
+    function sayNo() {
+      // Make Yes bigger
+      yesSize += 8;
+      const yesButton = document.getElementById("yes");
+      yesButton.style.fontSize = yesSize + "px";
+      yesButton.style.padding =
+        (13 + yesSize / 3) + "px " +
+        (25 + yesSize / 2) + "px";
+      // Move No button
+      const noButton = document.getElementById("no");
+      const x = Math.random() * 200 - 100;
+      const y = Math.random() * 150 - 75;
+      noButton.style.transform =
+        `translate(${x}px, ${y}px)`;
+      // Change text
+      const messages = [
+        "Are you sure? 🥺",
+        "Think again 😭",
+        "Please? 🥹",
+        "Really? 💔",
+        "One more chance? 🥺",
+        "Come onnn 💗"
+      ];
+      noButton.innerText =
+        messages[Math.floor(Math.random() * messages.length)];
+    }
+    function sayYes() {
+      document.getElementById("result").style.display = "block";
+      document.getElementById("yes").style.display = "none";
+      document.getElementById("no").style.display = "none";
+      // Hearts
+      for (let i = 0; i < 50; i++) {
+        setTimeout(createHeart, i * 80);
+      }
+    }
+    function createHeart() {
+      const heart = document.createElement("div");
+      heart.innerHTML = "💗";
+      heart.style.position = "fixed";
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.bottom = "-30px";
+      heart.style.fontSize =
+        (20 + Math.random() * 30) + "px";
+      heart.style.animation =
+        "floatUp 4s linear forwards";
+      document.body.appendChild(heart);
+      setTimeout(() => {
+        heart.remove();
+      }, 4000);
+    }
+  </script>
+  <style>
+    @keyframes floatUp {
+      from {
+        transform: translateY(0);
+        opacity: 1;
+      }
+      to {
+        transform: translateY(-110vh);
+        opacity: 0;
+      }
+    }
+  </style>
+</body>
+</html>
