@@ -11,154 +11,445 @@
     body {
       margin: 0;
       height: 100vh;
+      overflow: hidden;
+      font-family: Arial, sans-serif;
+      background: radial-gradient(
+        circle at top,
+        #fff5fa,
+        #ffd6e7
+      );
       display: flex;
       justify-content: center;
       align-items: center;
-      font-family: Arial, sans-serif;
-      background: linear-gradient(135deg, #ffd6e7, #fff0f6);
-      overflow: hidden;
     }
-    .card {
-      background: white;
-      width: 90%;
-      max-width: 420px;
-      padding: 40px 25px;
-      border-radius: 25px;
+    /* =========================
+       ENVELOPE SCREEN
+    ========================= */
+    .envelope-screen {
       text-align: center;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+      transition: 0.8s;
     }
-    .heart {
-      font-size: 70px;
-      animation: beat 1s infinite;
-    }
-    @keyframes beat {
-      50% {
-        transform: scale(1.2);
-      }
-    }
-    h1 {
-      color: #ff4f8b;
-    }
-    p {
-      color: #555;
-      font-size: 18px;
-      line-height: 1.6;
-    }
-    .buttons {
-      margin-top: 25px;
-    }
-    button {
-      border: none;
-      padding: 13px 25px;
-      margin: 10px;
-      border-radius: 30px;
-      font-size: 17px;
+    .envelope {
+      width: 230px;
+      height: 150px;
+      background: #ff8fb8;
+      position: relative;
+      margin: auto;
       cursor: pointer;
-      transition: 0.3s;
+      border-radius: 10px;
+      box-shadow:
+        0 15px 35px rgba(0,0,0,0.15);
+      animation: float 2s infinite ease-in-out;
     }
-    #yes {
-      background: #ff4f8b;
-      color: white;
+    .envelope::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      border-left: 115px solid transparent;
+      border-right: 115px solid transparent;
+      border-top: 85px solid #ffb1ce;
+      z-index: 2;
     }
-    #no {
-      background: #eee;
-      color: #555;
+    .letter {
+      position: absolute;
+      background: white;
+      width: 190px;
+      height: 120px;
+      left: 20px;
+      top: 15px;
+      border-radius: 5px;
+      z-index: 1;
     }
-    #result {
-      display: none;
-      margin-top: 20px;
+    .envelope-text {
+      margin-top: 25px;
       color: #ff4f8b;
-      font-size: 24px;
-      font-weight: bold;
     }
-  </style>
-</head>
-<body>
-  <div class="card">
-    <div class="heart">❤️</div>
-    <h1>Will You Be My Girlfriend?</h1>
-    <p>
-      I really like you... 💕<br>
-      So I have one question for you.
-    </p>
-    <h2>Will you be mine? 🥺</h2>
-    <div class="buttons">
-      <button id="yes" onclick="sayYes()">
-        Yes 💗
-      </button>
-      <button id="no" onclick="sayNo()">
-        No 😭
-      </button>
-    </div>
-    <div id="result">
-      YAY!!! 💗<br>
-      You made me the happiest person! 🥰
-    </div>
-  </div>
-  <script>
-    let yesSize = 17;
-    function sayNo() {
-      // Make Yes bigger
-      yesSize += 8;
-      const yesButton = document.getElementById("yes");
-      yesButton.style.fontSize = yesSize + "px";
-      yesButton.style.padding =
-        (13 + yesSize / 3) + "px " +
-        (25 + yesSize / 2) + "px";
-      // Move No button
-      const noButton = document.getElementById("no");
-      const x = Math.random() * 200 - 100;
-      const y = Math.random() * 150 - 75;
-      noButton.style.transform =
-        `translate(${x}px, ${y}px)`;
-      // Change text
-      const messages = [
-        "Are you sure? 🥺",
-        "Think again 😭",
-        "Please? 🥹",
-        "Really? 💔",
-        "One more chance? 🥺",
-        "Come onnn 💗"
-      ];
-      noButton.innerText =
-        messages[Math.floor(Math.random() * messages.length)];
-    }
-    function sayYes() {
-      document.getElementById("result").style.display = "block";
-      document.getElementById("yes").style.display = "none";
-      document.getElementById("no").style.display = "none";
-      // Hearts
-      for (let i = 0; i < 50; i++) {
-        setTimeout(createHeart, i * 80);
+    @keyframes float {
+      50% {
+        transform: translateY(-10px);
       }
     }
-    function createHeart() {
-      const heart = document.createElement("div");
-      heart.innerHTML = "💗";
-      heart.style.position = "fixed";
-      heart.style.left = Math.random() * 100 + "vw";
-      heart.style.bottom = "-30px";
-      heart.style.fontSize =
-        (20 + Math.random() * 30) + "px";
-      heart.style.animation =
-        "floatUp 4s linear forwards";
-      document.body.appendChild(heart);
-      setTimeout(() => {
-        heart.remove();
-      }, 4000);
+    /* =========================
+       MAIN CARD
+    ========================= */
+    .main {
+      display: none;
+      width: 90%;
+      max-width: 430px;
+      text-align: center;
+      animation: appear 1s ease;
     }
-  </script>
-  <style>
-    @keyframes floatUp {
+    @keyframes appear {
       from {
-        transform: translateY(0);
-        opacity: 1;
+        opacity: 0;
+        transform: scale(0.8);
       }
       to {
-        transform: translateY(-110vh);
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+    .card {
+      background: rgba(255,255,255,0.82);
+      backdrop-filter: blur(15px);
+      padding: 35px 25px;
+      border-radius: 30px;
+      box-shadow:
+        0 20px 50px rgba(255,79,139,0.2);
+    }
+    /* =========================
+       HEART
+    ========================= */
+    .big-heart {
+      font-size: 70px;
+      animation:
+        heartbeat 1.2s infinite;
+    }
+    @keyframes heartbeat {
+      50% {
+        transform: scale(1.18);
+      }
+    }
+    /* =========================
+       TEXT
+    ========================= */
+    h1 {
+      color: #ff4f8b;
+      font-size: 30px;
+      margin-bottom: 15px;
+    }
+    p {
+      color: #666;
+      font-size: 17px;
+      line-height: 1.7;
+    }
+    .question {
+      font-size: 25px;
+      color: #333;
+      margin: 25px 0;
+      font-weight: bold;
+    }
+    /* =========================
+       BUTTONS
+    ========================= */
+    button {
+      border: none;
+      border-radius: 50px;
+      padding: 14px 28px;
+      margin: 8px;
+      font-size: 17px;
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+    #yes {
+      background:
+        linear-gradient(
+          135deg,
+          #ff4f8b,
+          #ff79a8
+        );
+      color: white;
+      box-shadow:
+        0 8px 20px
+        rgba(255,79,139,0.3);
+    }
+    #no {
+      background: #eeeeee;
+      color: #555;
+    }
+    /* =========================
+       RESULT
+    ========================= */
+    #result {
+      display: none;
+      margin-top: 25px;
+      animation: appear 0.7s ease;
+    }
+    #result h2 {
+      color: #ff4f8b;
+      font-size: 30px;
+    }
+    /* =========================
+       FLOATING HEARTS
+    ========================= */
+    .heart {
+      position: fixed;
+      bottom: -40px;
+      pointer-events: none;
+      animation:
+        rise 5s linear forwards;
+    }
+    @keyframes rise {
+      0% {
+        transform:
+          translateY(0)
+          rotate(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform:
+          translateY(-110vh)
+          rotate(360deg);
+        opacity: 0;
+      }
+    }
+    /* =========================
+       SPARKLES
+    ========================= */
+    .sparkle {
+      position: fixed;
+      pointer-events: none;
+      animation:
+        sparkle 1s forwards;
+    }
+    @keyframes sparkle {
+      0% {
+        transform: scale(0);
+        opacity: 1;
+      }
+      100% {
+        transform: scale(2);
         opacity: 0;
       }
     }
   </style>
+</head>
+<body>
+  <!-- =========================
+       ENVELOPE
+  ========================= -->
+  <div
+    class="envelope-screen"
+    id="envelopeScreen"
+  >
+    <div
+      class="envelope"
+      onclick="openLetter()"
+    >
+      <div class="letter"></div>
+    </div>
+    <h2 class="envelope-text">
+      You have a letter 💌
+    </h2>
+    <p>
+      Tap the envelope to open it
+    </p>
+  </div>
+  <!-- =========================
+       MAIN
+  ========================= -->
+  <div
+    class="main"
+    id="main"
+  >
+    <div class="card">
+      <div class="big-heart">
+        💗
+      </div>
+      <h1>
+        Hey, You...
+      </h1>
+      <p>
+        There's something
+        I've been wanting
+        to tell you.
+        <br><br>
+        You make my days
+        happier,
+        and I really enjoy
+        every moment with you.
+      </p>
+      <div class="question">
+        Will you be mine? 🥺💗
+      </div>
+      <!-- YES -->
+      <button
+        id="yes"
+        onclick="sayYes()"
+      >
+        Yes 💗
+      </button>
+      <!-- NO -->
+      <button
+        id="no"
+        onclick="sayNo()"
+      >
+        No 😭
+      </button>
+      <!-- RESULT -->
+      <div id="result">
+        <h2>
+          YAY!!! 🥰💗
+        </h2>
+        <p>
+          You're mine now! ❤️
+          <br>
+          I'll always cherish you. 💕
+        </p>
+      </div>
+    </div>
+  </div>
+  <script>
+    /* =========================
+       VARIABLES
+    ========================= */
+    let yesSize = 17;
+    /* =========================
+       OPEN LETTER
+    ========================= */
+    function openLetter() {
+      document
+        .getElementById("envelopeScreen")
+        .style.display = "none";
+      document
+        .getElementById("main")
+        .style.display = "block";
+    }
+    /* =========================
+       NO BUTTON
+    ========================= */
+    function sayNo() {
+      /* Make YES bigger */
+      yesSize += 6;
+      const yes =
+        document.getElementById("yes");
+      yes.style.fontSize =
+        yesSize + "px";
+      yes.style.padding =
+        (14 + yesSize / 4) +
+        "px " +
+        (28 + yesSize / 2) +
+        "px";
+      /* Move NO */
+      const no =
+        document.getElementById("no");
+      const x =
+        Math.random() * 180 - 90;
+      const y =
+        Math.random() * 120 - 60;
+      no.style.transform =
+        `translate(${x}px, ${y}px)`;
+      /* Change NO text */
+      const messages = [
+        "Are you sure? 🥺",
+        "Really? 😭",
+        "Think again 💗",
+        "Please? 🥹",
+        "Don't do this to me 😭",
+        "One more chance? 💕",
+        "Pretty please? 🥺",
+        "Come onnn 💗"
+      ];
+      no.innerText =
+        messages[
+          Math.floor(
+            Math.random() *
+            messages.length
+          )
+        ];
+    }
+    /* =========================
+       YES BUTTON
+    ========================= */
+    function sayYes() {
+      /* Hide buttons */
+      document
+        .getElementById("yes")
+        .style.display = "none";
+      document
+        .getElementById("no")
+        .style.display = "none";
+      /* Show result */
+      document
+        .getElementById("result")
+        .style.display = "block";
+      /* Hearts */
+      for (
+        let i = 0;
+        i < 80;
+        i++
+      ) {
+        setTimeout(
+          createHeart,
+          i * 50
+        );
+      }
+      /* Sparkles */
+      for (
+        let i = 0;
+        i < 30;
+        i++
+      ) {
+        setTimeout(
+          createSparkle,
+          i * 100
+        );
+      }
+    }
+    /* =========================
+       CREATE HEART
+    ========================= */
+    function createHeart() {
+      const heart =
+        document.createElement("div");
+      heart.className =
+        "heart";
+      heart.innerHTML =
+        [
+          "💗",
+          "❤️",
+          "💕",
+          "💖",
+          "💘"
+        ]
+        [
+          Math.floor(
+            Math.random() * 5
+          )
+        ];
+      heart.style.left =
+        Math.random() * 100 +
+        "vw";
+      heart.style.fontSize =
+        (20 +
+        Math.random() * 35) +
+        "px";
+      heart.style.animationDuration =
+        (3 +
+        Math.random() * 3) +
+        "s";
+      document.body
+        .appendChild(heart);
+      setTimeout(() => {
+        heart.remove();
+      }, 6000);
+    }
+    /* =========================
+       CREATE SPARKLE
+    ========================= */
+    function createSparkle() {
+      const sparkle =
+        document.createElement("div");
+      sparkle.className =
+        "sparkle";
+      sparkle.innerHTML = "✨";
+      sparkle.style.left =
+        Math.random() * 100 +
+        "vw";
+      sparkle.style.top =
+        Math.random() * 100 +
+        "vh";
+      sparkle.style.fontSize =
+        (15 +
+        Math.random() * 25) +
+        "px";
+      document.body
+        .appendChild(sparkle);
+      setTimeout(() => {
+        sparkle.remove();
+      }, 1000);
+    }
+  </script>
 </body>
 </html>
